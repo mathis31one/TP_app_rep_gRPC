@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package authentification;
+
+option java_package = "com.proto.authentification";
+option java_multiple_files = true;
+
+message Utilisateur {
+  string user = 1;
+  string password = 2;
+}
+
+enum TypeCR {
+  DONE = 0 ;
+  DENY_DUPLICATED = 1 ;
+  DENY_NOT_FOUND = 2 ;
+  DENY_BAD_VALUES = 3 ;
+  DENY_OTHER = 9 ;
+}
+message AURequest {
+  Utilisateur ressource = 1 ;
+}
+message AUDResponse {
+  TypeCR cr = 1 ;
+}
+
+message DGRequest {
+  Utilisateur ressource = 1 ;
+}
+message GResponse {
+  TypeCR cr = 1 ;
+  optional Utilisateur ressource = 2 ;
+}
+
+service GestionAuthentificationService {
+  rpc testerRessource(AURequest) returns(AUDResponse){};
+  rpc addRessource(AURequest) returns(AUDResponse){};
+  rpc delRessource(DGRequest) returns(AUDResponse){};
+  rpc modifyRessource(AURequest) returns (AUDResponse){};
+}
